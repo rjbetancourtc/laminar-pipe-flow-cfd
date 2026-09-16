@@ -496,24 +496,6 @@ laminar-pipe-flow-cfd/
     └── make_validation_plots.py
 ```
 
----
-
-## REPRODUCE THE CASE
-
-Use a working copy of `openfoam_case/` if you want to preserve the included converged solution.
-
-```bash
-cd openfoam_case
-checkMesh -allTopology -allGeometry
-foamRun
-```
-
-The existing `250/` and `341/` directories are retained as technical evidence.
-
-For a clean rerun, remove those result directories **only in a working copy** before executing the solver.
-
----
-
 ## REGENERATE VALIDATION PLOTS
 
 The repository includes a lightweight Python script that regenerates the main engineering plots directly from the stored CSV files.
