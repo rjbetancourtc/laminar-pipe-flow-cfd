@@ -1,351 +1,463 @@
+<!--
+GitHub-compatible README.
+Uses only Markdown + safe HTML supported by GitHub.
+No external CSS or JavaScript is required.
+-->
+
 <div align="center">
 
-# Steady Laminar Flow in a Circular Pipe  
-## CFD Verification Benchmark
+# STEADY LAMINAR FLOW IN A CIRCULAR PIPE
 
-**A verification-focused CFD case study for low-Reynolds-number internal flow, combining analytical fluid mechanics, OpenFOAM 12, mesh-quality assessment, convergence tracking, conservation checks, and quantitative validation against Hagen–Poiseuille theory.**
+### CFD Verification Benchmark · OpenFOAM 12 · Analytical Validation
 
-<br>
+<h3>Reinaldo J. Betancourt C.</h3>
 
-**OpenFOAM 12** · **Laminar Internal Flow** · **Hagen–Poiseuille Validation** · **Mesh Verification** · **Convergence Analysis** · **Engineering Reproducibility**
+<p>
+<strong>Mechanical Engineering · Simulation Engineering · Digital Engineering</strong>
+</p>
+
+<p>
+A verification-driven CFD case study for low-Reynolds-number internal flow, engineered to demonstrate not only a converged solution, but a technically defensible one.
+</p>
+
+<p>
+  <img alt="OpenFOAM 12" src="https://img.shields.io/badge/OpenFOAM-12-005EB8?style=for-the-badge">
+  <img alt="Flow regime" src="https://img.shields.io/badge/Flow-Laminar-00A6A6?style=for-the-badge">
+  <img alt="Reynolds number" src="https://img.shields.io/badge/Reynolds-9-2E8B57?style=for-the-badge">
+  <img alt="Mesh" src="https://img.shields.io/badge/Mesh-33%2C917_cells-6A5ACD?style=for-the-badge">
+  <img alt="Validation" src="https://img.shields.io/badge/Validation-Hagen--Poiseuille-D97706?style=for-the-badge">
+</p>
+
+<p>
+<strong>Physics → Mesh Quality → Convergence → Conservation → Analytical Validation → Reproducible Evidence</strong>
+</p>
 
 </div>
 
 ---
 
-## Why this project matters
+<div align="center">
 
-A CFD result is only useful if it can survive technical scrutiny.
+## ENGINEERING AT A GLANCE
 
-This benchmark was built around a simple geometry so that every major numerical result could be checked against an independent analytical reference. The objective was not merely to obtain a velocity contour, but to demonstrate a complete verification workflow:
+<table>
+<tr>
+<td align="center"><b>Reynolds Number</b><br><br><font size="5"><b>9</b></font></td>
+<td align="center"><b>Final Mesh</b><br><br><font size="5"><b>33,917</b></font><br>cells</td>
+<td align="center"><b>SIMPLE Iterations</b><br><br><font size="5"><b>341</b></font></td>
+<td align="center"><b>Mass Error</b><br><br><font size="5"><b>5.10×10⁻¹⁰%</b></font></td>
+</tr>
+<tr>
+<td align="center"><b>CFD U<sub>max</sub></b><br><br><b>0.0199034 m/s</b></td>
+<td align="center"><b>Analytical U<sub>max</sub></b><br><br><b>0.0200000 m/s</b></td>
+<td align="center"><b>CFD dp/dx</b><br><br><b>3.3977 Pa/m</b></td>
+<td align="center"><b>Analytical dp/dx</b><br><br><b>3.2000 Pa/m</b></td>
+</tr>
+</table>
 
-> **physics definition → mesh quality → numerical convergence → conservation → analytical validation → reproducible evidence**
-
-The case models steady, incompressible, laminar flow through a straight circular pipe with a uniform inlet profile. Because the inlet is not initially fully developed, the solution contains both an entrance-region effect and a downstream region that can be compared directly with Hagen–Poiseuille theory.
-
----
-
-## Engineering snapshot
-
-| Metric | Result |
-|---|---:|
-| Reynolds number | **9** |
-| Final mesh cells | **33,917** |
-| Tetrahedra | **22,825** |
-| Prisms | **11,092** |
-| Max non-orthogonality | **58.557°** |
-| Max skewness | **0.5419** |
-| Minimum determinant | **0.05036** |
-| Failed mesh checks | **0** |
-| SIMPLE iterations | **341** |
-| Mass-conservation error | **5.10 × 10⁻¹⁰ %** |
-| Maximum downstream velocity | **0.0199034 m/s** |
-| Analytical maximum velocity | **0.0200000 m/s** |
-| Developed CFD pressure gradient | **3.3977 Pa/m** |
-| Hagen–Poiseuille pressure gradient | **3.2000 Pa/m** |
-| Total CFD pressure drop | **1.89817 Pa** |
+</div>
 
 ---
 
-## Problem definition
+## WHY THIS PROJECT MATTERS
 
-A Newtonian fluid flows through a horizontal circular pipe aligned with the global **x-axis**.
+A CFD contour can look convincing and still be wrong.
+
+This benchmark was designed around a deliberately simple geometry so that every major numerical result could be challenged by an independent analytical reference. The purpose is not merely to obtain a converged OpenFOAM case. The purpose is to establish a chain of evidence showing that the solution is physically meaningful, numerically stable, conservative, and quantitatively consistent with classical laminar-flow theory.
+
+> **The objective is not to make CFD look convincing. The objective is to make the result technically defensible.**
+
+The case models a Newtonian fluid entering a straight circular pipe with a uniform axial velocity. The top-hat inlet profile develops toward the parabolic profile expected for fully developed Hagen–Poiseuille flow, creating a useful benchmark for both entrance-region physics and downstream verification.
+
+---
+
+## PROBLEM DEFINITION
+
+<table>
+<tr>
+<td width="50%">
+
+### Geometry
 
 | Quantity | Value |
 |---|---:|
-| Pipe diameter, `D` | 0.100 m |
-| Pipe radius, `R` | 0.050 m |
-| Pipe length, `L` | 0.500 m |
-| Density, `ρ` | 900 kg/m³ |
-| Dynamic viscosity, `μ` | 0.100 Pa·s |
-| Kinematic viscosity, `ν` | 1.111111 × 10⁻⁴ m²/s |
-| Mean inlet velocity, `Uₘ` | 0.010 m/s |
-| Reynolds number | 9 |
-| Inlet | `U = (0.01, 0, 0)` m/s |
-| Outlet | reference pressure `p = 0` |
+| Diameter, `D` | **0.100 m** |
+| Radius, `R` | **0.050 m** |
+| Length, `L` | **0.500 m** |
+| Pipe axis | **+x** |
+
+</td>
+<td width="50%">
+
+### Fluid and boundary conditions
+
+| Quantity | Value |
+|---|---:|
+| Density, `ρ` | **900 kg/m³** |
+| Dynamic viscosity, `μ` | **0.100 Pa·s** |
+| Mean inlet velocity | **0.010 m/s** |
+| Inlet | `U=(0.01,0,0)` m/s |
+| Outlet | `p=0` reference |
 | Wall | no-slip |
-| Gravity | neglected |
-| Thermal effects | neglected |
 
-The inlet velocity profile is uniform, so the flow develops spatially before approaching the fully developed parabolic profile.
+</td>
+</tr>
+</table>
 
----
-
-## Analytical reference
-
-The benchmark is deliberately chosen so that the CFD solution can be compared with classical laminar pipe-flow theory.
-
-### Kinematic viscosity
-
-\[
-\nu = \frac{\mu}{\rho}
-\]
-
-\[
-\nu = \frac{0.100}{900}
-= 1.111111\times10^{-4}\ \mathrm{m^2/s}
-\]
-
-### Cross-sectional area
-
-\[
-A = \frac{\pi D^2}{4}
-\]
-
-\[
-A = 7.853981634\times10^{-3}\ \mathrm{m^2}
-\]
-
-### Volumetric flow rate
-
-\[
-Q = U_m A
-\]
-
-\[
-Q = 7.853981634\times10^{-5}\ \mathrm{m^3/s}
-\]
-
-### Reynolds number
-
-\[
-Re = \frac{\rho U_m D}{\mu}
-\]
-
-\[
-Re = 9
-\]
-
-The flow is therefore strongly laminar.
-
-### Entrance length estimate
-
-\[
-\frac{L_e}{D} \approx 0.05Re
-\]
-
-\[
-L_e \approx 0.045\ \mathrm{m}
-\]
-
-This is approximately **9% of the total pipe length**.
-
-### Fully developed velocity profile
-
-\[
-u_x(r)=2U_m\left[1-\left(\frac{r}{R}\right)^2\right]
-\]
-
-The theoretical centerline velocity is therefore
-
-\[
-U_{\max}=2U_m=0.020\ \mathrm{m/s}
-\]
-
-### Hagen–Poiseuille pressure gradient
-
-\[
-\left|\frac{dp}{dx}\right|
-=
-\frac{32\mu U_m}{D^2}
-=
-3.2\ \mathrm{Pa/m}
-\]
-
-For a fully developed profile over the complete 0.5 m length,
-
-\[
-\Delta p_{HP}=1.6\ \mathrm{Pa}
-\]
-
-Because the CFD case begins with a uniform inlet profile, the total inlet-to-outlet pressure drop is expected to exceed the fully developed Hagen–Poiseuille value.
+The model is steady, incompressible and isothermal. Gravity and thermal effects are neglected.
 
 ---
 
-## Numerical model
+## ANALYTICAL BASELINE
 
-The case uses **OpenFOAM Foundation 12** with a steady, incompressible, laminar formulation.
+The benchmark is anchored to the exact solution for fully developed laminar flow in a circular pipe.
 
-### Solver configuration
+### Core quantities
 
-- Solver module: `incompressibleFluid`
-- Transport model: laminar, constant viscosity
-- Pressure–velocity coupling: consistent SIMPLE
-- Non-orthogonal corrections: 2
-- Pressure solver: GAMG
-- Velocity solver: smoothSolver / symGaussSeidel
+```text
+ν  = μ / ρ
+   = 1.111111 × 10⁻⁴ m²/s
+
+A  = πD² / 4
+   = 7.853981634 × 10⁻³ m²
+
+Q  = Um A
+   = 7.853981634 × 10⁻⁵ m³/s
+
+Re = ρ Um D / μ
+   = 9
+```
+
+A standard laminar entrance-length estimate gives:
+
+```text
+Le / D ≈ 0.05 Re
+Le ≈ 0.045 m
+```
+
+which corresponds to approximately **9% of the pipe length**.
+
+### Fully developed profile
+
+```text
+ux(r) = 2 Um [1 - (r/R)²]
+```
+
+Therefore:
+
+```text
+Umax = 2 Um = 0.020 m/s
+```
+
+and the Hagen–Poiseuille pressure gradient is:
+
+```text
+|dp/dx| = 32 μ Um / D² = 3.2 Pa/m
+```
+
+For a fully developed profile across the full 0.5 m:
+
+```text
+ΔpHP = 1.6 Pa
+```
+
+Because the CFD model starts from a uniform inlet profile rather than a pre-developed parabola, the total inlet-to-outlet pressure drop is expected to include an additional entrance-region contribution.
+
+---
+
+## NUMERICAL MODEL
+
+<table>
+<tr>
+<td width="50%">
+
+### Solver architecture
+
+- **OpenFOAM Foundation 12**
+- `foamRun`
+- `incompressibleFluid`
+- steady incompressible formulation
+- constant-viscosity laminar transport
+- consistent SIMPLE
+- 2 non-orthogonal corrections
+
+</td>
+<td width="50%">
+
+### Linear solution controls
+
+- Pressure: **GAMG**
+- Velocity: **smoothSolver / symGaussSeidel**
 - Residual control:
   - `p = 1e-8`
   - `U = 1e-8`
-- Pressure relaxation: `0.3`
-- Velocity relaxation: `0.7`
+- Relaxation:
+  - `p = 0.3`
+  - `U = 0.7`
 
-OpenFOAM stores `p` as **kinematic pressure** in this case.
+</td>
+</tr>
+</table>
 
-\[
-p_{\mathrm{Pa}}=\rho\,p_{\mathrm{kinematic}}
-\]
+For this case, OpenFOAM stores `p` as **kinematic pressure**, so the physical pressure is recovered through:
 
----
-
-## Mesh verification
-
-The final mesh combines tetrahedral cells with prism layers near the wall.
-
-| Mesh metric | Final value |
-|---|---:|
-| Points | 11,233 |
-| Cells | 33,917 |
-| Tetrahedra | 22,825 |
-| Prisms | 11,092 |
-| Boundary patches | 3 |
-| Max non-orthogonality | 58.557° |
-| Mean non-orthogonality | 14.981° |
-| Max skewness | 0.5419 |
-| Max aspect ratio | 5.423 |
-| Minimum determinant | 0.05036 |
-| Cells with determinant < 0.001 | 0 |
-| Total mesh volume | 3.912657850 × 10⁻³ m³ |
-| Verification result | **Mesh OK** |
-
-The exact cylindrical fluid volume is
-
-\[
-V_{\mathrm{CAD}}=3.926990817\times10^{-3}\ \mathrm{m^3}
-\]
-
-The discretized-volume difference is approximately **0.365%**, consistent with geometric facetization of the circular surface.
-
-### Mesh evolution
-
-![Mesh evolution](figures/mesh_evolution.png)
-
-### Mesh-quality evolution
-
-![Mesh quality evolution](figures/mesh_quality_evolution.png)
+```text
+pPa = ρ · pkinematic
+```
 
 ---
 
-## Solver convergence
+## MESH: FROM DISCRETIZATION TO VERIFIED DOMAIN
 
-The steady SIMPLE solution converged in **341 iterations**.
+<div align="center">
 
-![Residual history](figures/convergence_residuals.png)
+<table>
+<tr>
+<td align="center"><b>Points</b><br><br><b>11,233</b></td>
+<td align="center"><b>Cells</b><br><br><b>33,917</b></td>
+<td align="center"><b>Tetrahedra</b><br><br><b>22,825</b></td>
+<td align="center"><b>Prisms</b><br><br><b>11,092</b></td>
+</tr>
+<tr>
+<td align="center"><b>Max non-orthogonality</b><br><br><b>58.557°</b></td>
+<td align="center"><b>Max skewness</b><br><br><b>0.5419</b></td>
+<td align="center"><b>Min determinant</b><br><br><b>0.05036</b></td>
+<td align="center"><b>Failed checks</b><br><br><b>0</b></td>
+</tr>
+</table>
 
-The continuity history confirms that the solution also satisfies global flow conservation to a very small numerical error.
+</div>
 
-![Continuity history](figures/continuity_history.png)
+The final discretized volume is:
 
----
+```text
+Vmesh = 3.912657850 × 10⁻³ m³
+```
 
-## Quantitative results
+while the exact cylindrical fluid volume is:
 
-| Quantity | CFD | Analytical reference | Interpretation |
-|---|---:|---:|---|
-| Volumetric flow rate | 7.84050081 × 10⁻⁵ m³/s | 7.85398163 × 10⁻⁵ m³/s | very close |
-| Difference from exact-area flow | -0.1716% | — | consistent with faceted inlet area |
-| Mass-conservation error | 5.10 × 10⁻¹⁰ % | 0% ideal | excellent conservation |
-| Maximum downstream velocity | 0.0199034 m/s | 0.0200 m/s | -0.48% |
-| `Umax / Um` | 1.9903 | 2.0000 | near theoretical parabolic limit |
-| Developed pressure gradient | 3.3977 Pa/m | 3.2000 Pa/m | +6.18% |
-| Total pressure drop | 1.89817 Pa | 1.6000 Pa | entrance-region contribution present |
+```text
+VCAD = 3.926990817 × 10⁻³ m³
+```
 
----
+The difference is approximately **0.365%**, consistent with geometric facetization of the circular surface.
 
-## Validation against Hagen–Poiseuille theory
+<div align="center">
 
-### Velocity profile
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="figures/mesh_evolution.png" width="430"><br>
+<sub><b>Mesh evolution</b> — refinement history and removal of low-determinant cells.</sub>
+</td>
+<td align="center" width="50%">
+<img src="figures/mesh_quality_evolution.png" width="430"><br>
+<sub><b>Mesh-quality evolution</b> — non-orthogonality, skewness and aspect ratio.</sub>
+</td>
+</tr>
+</table>
 
-The downstream radial profile approaches the analytical parabola expected for fully developed laminar flow.
-
-![Radial velocity validation](figures/radial_velocity_validation.png)
-
-The centerline velocity reaches approximately
-
-\[
-U_{\max}=0.0199034\ \mathrm{m/s}
-\]
-
-which is close to the analytical value
-
-\[
-U_{\max,\mathrm{HP}}=0.0200\ \mathrm{m/s}
-\]
-
-### Pressure gradient
-
-The developed CFD pressure gradient is approximately
-
-\[
-3.3977\ \mathrm{Pa/m}
-\]
-
-compared with the Hagen–Poiseuille reference
-
-\[
-3.2000\ \mathrm{Pa/m}
-\]
-
-![Axial pressure validation](figures/axial_pressure_validation.png)
-
-The total inlet-to-outlet pressure drop is larger than the fully developed full-length reference because the inlet profile must develop from uniform to parabolic.
+</div>
 
 ---
 
-## Flow-field visualization
+## CONVERGENCE AND CONSERVATION
 
-### Velocity magnitude
+The steady SIMPLE solution converged after **341 iterations**.
 
-![Velocity magnitude](figures/velocity_contour.png)
+<div align="center">
 
-### Physical pressure
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="figures/convergence_residuals.png" width="430"><br>
+<sub><b>Residual history</b> — velocity components and pressure across the full solve.</sub>
+</td>
+<td align="center" width="50%">
+<img src="figures/continuity_history.png" width="430"><br>
+<sub><b>Continuity history</b> — local and global continuity behavior.</sub>
+</td>
+</tr>
+</table>
 
-![Pressure contour](figures/pressure_contour_Pa.png)
+</div>
 
-### Longitudinal velocity
+The final flow-rate imbalance is approximately:
 
-![Longitudinal velocity](figures/longitudinal_velocity.png)
+```text
+5.10 × 10⁻¹⁰ %
+```
 
-### Longitudinal pressure
-
-![Longitudinal pressure](figures/longitudinal_pressure.png)
-
-### Streamlines
-
-![Streamlines](figures/streamlines.png)
-
-### Velocity vectors
-
-![Velocity vectors](figures/velocity_vectors.png)
-
-### Downstream cross-section
-
-![Cross section velocity](figures/cross_section_velocity_x045.png)
-
----
-
-## Engineering capabilities demonstrated
-
-This benchmark is intentionally compact, but it demonstrates several core engineering capabilities that transfer directly to more complex CFD work:
-
-- translating a physical problem into a numerical model;
-- defining physically consistent boundary conditions;
-- distinguishing total pressure-drop effects from developed-flow behavior;
-- evaluating mesh quality using topology and geometry metrics;
-- iterating mesh design based on quantitative quality evidence;
-- tracking nonlinear/segregated steady-solver convergence;
-- checking global conservation independently of residuals;
-- interpreting OpenFOAM kinematic pressure correctly;
-- validating CFD against an independent analytical solution;
-- separating visualization from quantitative verification;
-- packaging the case so results can be independently inspected and reproduced.
-
-> **The objective is not to make CFD look convincing.  
-> The objective is to make the result technically defensible.**
+This provides an independent conservation check beyond algebraic residual convergence.
 
 ---
 
-## Repository structure
+## CFD VS ANALYTICAL THEORY
+
+<div align="center">
+
+<table>
+<tr>
+<th>Quantity</th>
+<th>CFD</th>
+<th>Analytical</th>
+<th>Assessment</th>
+</tr>
+<tr>
+<td>Volumetric flow rate</td>
+<td><b>7.84050081×10⁻⁵ m³/s</b></td>
+<td>7.85398163×10⁻⁵ m³/s</td>
+<td>Very close</td>
+</tr>
+<tr>
+<td>Maximum downstream velocity</td>
+<td><b>0.0199034 m/s</b></td>
+<td>0.0200000 m/s</td>
+<td><b>-0.48%</b></td>
+</tr>
+<tr>
+<td>Umax / Um</td>
+<td><b>1.9903</b></td>
+<td>2.0000</td>
+<td>Near parabolic limit</td>
+</tr>
+<tr>
+<td>Developed pressure gradient</td>
+<td><b>3.3977 Pa/m</b></td>
+<td>3.2000 Pa/m</td>
+<td><b>+6.18%</b></td>
+</tr>
+<tr>
+<td>Total pressure drop</td>
+<td><b>1.89817 Pa</b></td>
+<td>1.6000 Pa</td>
+<td>Entrance region included</td>
+</tr>
+</table>
+
+</div>
+
+### Radial velocity profile
+
+The downstream profile approaches the parabolic shape predicted by Hagen–Poiseuille theory.
+
+<div align="center">
+<img src="figures/radial_velocity_validation.png" width="620"><br>
+<sub>CFD radial velocity profile compared with the analytical fully developed solution.</sub>
+</div>
+
+### Axial pressure behavior
+
+<div align="center">
+<img src="figures/axial_pressure_validation.png" width="620"><br>
+<sub>Axial pressure distribution compared with the fully developed analytical pressure-gradient reference.</sub>
+</div>
+
+The CFD pressure gradient downstream is close to theory, while the larger total pressure loss reflects the finite hydrodynamic development region.
+
+---
+
+## FLOW-FIELD VISUALIZATION
+
+<div align="center">
+
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="figures/velocity_contour.png" width="430"><br>
+<sub><b>Velocity magnitude</b></sub>
+</td>
+<td align="center" width="50%">
+<img src="figures/pressure_contour_Pa.png" width="430"><br>
+<sub><b>Physical pressure [Pa]</b></sub>
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="figures/longitudinal_velocity.png" width="430"><br>
+<sub><b>Longitudinal velocity field</b></sub>
+</td>
+<td align="center">
+<img src="figures/longitudinal_pressure.png" width="430"><br>
+<sub><b>Longitudinal pressure field</b></sub>
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="figures/streamlines.png" width="430"><br>
+<sub><b>Streamlines</b></sub>
+</td>
+<td align="center">
+<img src="figures/velocity_vectors.png" width="430"><br>
+<sub><b>Velocity vectors</b></sub>
+</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<img src="figures/cross_section_velocity_x045.png" width="560"><br>
+<sub><b>Downstream cross-section</b> — velocity structure near x = 0.45 m.</sub>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## WHAT THIS BENCHMARK DEMONSTRATES
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+### Physics
+
+- Low-Re internal flow
+- Entrance-region development
+- Fully developed laminar theory
+- Pressure–velocity coupling
+- Dimensional interpretation
+
+</td>
+<td width="33%" valign="top">
+
+### Numerical verification
+
+- Mesh-quality assessment
+- Iterative mesh improvement
+- Residual tracking
+- Conservation checks
+- Pressure-field interpretation
+
+</td>
+<td width="33%" valign="top">
+
+### Engineering validation
+
+- Independent analytical baseline
+- Quantitative error assessment
+- CFD/theory comparison
+- Reproducible evidence
+- Auditable case organization
+
+</td>
+</tr>
+</table>
+
+> **A successful solver exit is not, by itself, a successful engineering analysis.**
+
+Confidence comes from a hierarchy of independent checks:
+
+1. geometry and scale are correct;
+2. the mesh passes topology and geometry checks;
+3. the numerical solution converges;
+4. global conservation is satisfied;
+5. physical trends match the expected behavior;
+6. key quantities agree with an independent analytical solution.
+
+---
+
+## REPOSITORY MAP
 
 ```text
 laminar-pipe-flow-cfd/
@@ -386,9 +498,9 @@ laminar-pipe-flow-cfd/
 
 ---
 
-## Reproduce the CFD case
+## REPRODUCE THE CASE
 
-Use a copy of `openfoam_case/` if you want to preserve the included converged solution.
+Use a working copy of `openfoam_case/` if you want to preserve the included converged solution.
 
 ```bash
 cd openfoam_case
@@ -398,63 +510,59 @@ foamRun
 
 The existing `250/` and `341/` directories are retained as technical evidence.
 
-For a clean rerun from the prescribed initial condition, remove those two result directories **in a working copy** before launching the solver.
+For a clean rerun, remove those result directories **only in a working copy** before executing the solver.
 
 ---
 
-## Regenerate the validation plots
+## REGENERATE VALIDATION PLOTS
 
-The repository includes a lightweight Python script that regenerates the principal engineering plots directly from the CSV data.
-
-```bash
-python scripts/make_validation_plots.py
-```
-
-Required Python package:
+The repository includes a lightweight Python script that regenerates the main engineering plots directly from the stored CSV files.
 
 ```bash
 pip install matplotlib
+python scripts/make_validation_plots.py
 ```
 
-The script does **not** rerun the CFD simulation. It only reproduces plots from the stored numerical data.
+The script does **not** rerun CFD. It only regenerates plots from the numerical data already stored in the repository.
 
 ---
 
-## Detailed technical documentation
+## TECHNICAL DOCUMENTATION
+
+<table>
+<tr>
+<td>
 
 - [Problem definition](docs/problem_definition.md)
 - [Analytical reference](docs/analytical_reference.md)
 - [Numerical setup](docs/numerical_setup.md)
-- [Mesh quality and mesh evolution](docs/mesh_quality.md)
+- [Mesh quality and evolution](docs/mesh_quality.md)
+
+</td>
+<td>
+
 - [Validation and interpretation](docs/validation.md)
 - [OpenFOAM case structure](docs/openfoam_case.md)
 - [Data and figure catalog](docs/results_catalog.md)
 
----
-
-## Verification philosophy
-
-This repository follows a simple rule:
-
-> **A successful solver exit is not, by itself, a successful engineering analysis.**
-
-Confidence comes from combining several independent checks:
-
-1. geometry and scale are correct;
-2. the mesh passes quality checks;
-3. the numerical solution converges;
-4. mass is conserved;
-5. the solution follows the expected physical trends;
-6. key quantities agree with independent analytical references.
-
-That hierarchy is the real purpose of this benchmark.
+</td>
+</tr>
+</table>
 
 ---
 
 <div align="center">
 
+## ENGINEERING PRINCIPLE
+
 ### CFD should not only produce images. It should produce evidence.
 
 **Steady Laminar Pipe Flow · OpenFOAM 12 · Analytical Verification · Reproducible Engineering**
+
+<br>
+
+<sub>
+A compact benchmark built around traceability, physical interpretation, numerical verification, and quantitative validation.
+</sub>
 
 </div>
