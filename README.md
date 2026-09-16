@@ -457,44 +457,7 @@ Confidence comes from a hierarchy of independent checks:
 
 ---
 
-## REPOSITORY MAP
 
-```text
-laminar-pipe-flow-cfd/
-├── README.md
-├── .gitignore
-├── docs/
-│   ├── problem_definition.md
-│   ├── analytical_reference.md
-│   ├── numerical_setup.md
-│   ├── mesh_quality.md
-│   ├── validation.md
-│   ├── openfoam_case.md
-│   └── results_catalog.md
-├── openfoam_case/
-│   ├── 0/
-│   ├── 250/
-│   ├── 341/
-│   ├── constant/
-│   ├── system/
-│   ├── postProcessing/
-│   └── results_basic.csv
-├── data/
-│   ├── benchmark_summary.csv
-│   ├── convergence_history.csv
-│   ├── mesh_iteration_history.csv
-│   ├── boundary_patches.csv
-│   ├── flow_balance.csv
-│   ├── axial_pressure.csv
-│   ├── axial_velocity.csv
-│   └── radial_velocity_x045.csv
-├── evidence/
-│   ├── checkMesh_final.txt
-│   └── solver_summary.txt
-├── figures/
-└── scripts/
-    └── make_validation_plots.py
-```
 
 ## REGENERATE VALIDATION PLOTS
 
