@@ -1,0 +1,7 @@
+quantity,value,units
+inlet_flux_signed,-7.840500810899e-05,m3/s
+outlet_flux_signed,7.84050081086e-05,m3/s
+inlet_flux_magnitude,7.840500810899e-05,m3/s
+outlet_flux_magnitude,7.84050081086e-05,m3/s
+mass_conservation_error_percent,4.974012895973664e-10,%
+mass_flow_rate,0.070564507298091,kg/s

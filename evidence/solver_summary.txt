@@ -1,0 +1,35 @@
+OpenFOAM 12 — steady laminar solver summary
+
+Model selection
+    solver: incompressibleFluid
+    viscosity model: constant
+    turbulence model type: laminar
+    laminar stress model: Stokes
+
+Convergence criteria
+    p: 1e-08
+    U: 1e-08
+
+Algorithm
+    steady-state SIMPLE
+    consistent SIMPLE: yes
+    non-orthogonal corrections: 2
+
+Final iteration: 341
+
+Final initial residuals
+    Ux = 5.9781205348e-10
+    Uy = 3.35248094736e-09
+    Uz = 9.98755391787e-09
+    p  = 2.89570284989e-09
+
+Final continuity errors
+    local      = 1.94811470263e-11
+    global     = -9.53319049531e-14
+    cumulative = 4.78468553033e-06
+
+Execution time reported at convergence
+    19.740037 s
+
+Result
+    SIMPLE solution converged in 341 iterations

@@ -1,0 +1,17 @@
+# OpenFOAM transient/runtime artifacts that may be created during new runs
+processor*/
+postProcessing/*/0/
+*.OpenFOAM
+*.foam
+log.*.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

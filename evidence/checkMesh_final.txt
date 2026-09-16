@@ -1,0 +1,33 @@
+OpenFOAM 12 — final mesh verification summary
+
+Mesh stats
+    points:           11233
+    faces:            76701
+    internal faces:   70059
+    cells:            33917
+    boundary patches: 3
+
+Cell types
+    prisms:        11092
+    tetrahedra:    22825
+
+Boundary topology
+    inlet:  518 faces
+    outlet: 578 faces
+    walls:  5546 faces
+    regions: 1
+
+Geometry
+    bounding box: (0 -0.04999998034 -0.04999999343) (0.5 0.04999980055 0.05)
+    max aspect ratio: 5.423210786
+    min cell volume: 3.559384885e-09 m3
+    max cell volume: 1.238282484e-06 m3
+    total volume: 0.00391265785 m3
+    max non-orthogonality: 58.55746463 deg
+    mean non-orthogonality: 14.98127609 deg
+    max skewness: 0.5418555496
+    minimum determinant: 0.05036120091
+    average determinant: 2.086295521
+
+Result
+    Mesh OK

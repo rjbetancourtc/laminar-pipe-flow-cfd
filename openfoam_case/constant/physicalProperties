@@ -1,0 +1,15 @@
+FoamFile
+{
+    format          ascii;
+    class           dictionary;
+    location        "constant";
+    object          physicalProperties;
+}
+
+// Fictitious Newtonian validation oil:
+// rho = 900 kg/m3, mu = 0.100 Pa s
+// nu = mu/rho = 1.111111111111e-4 m2/s
+
+viscosityModel  constant;
+
+nu              1.111111111111e-4 [m^2/s];

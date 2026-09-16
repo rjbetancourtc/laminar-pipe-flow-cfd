@@ -1,0 +1,24 @@
+metric,value,units
+nu,0.00011111111111111112,m2/s
+rho,900.0,kg/m3
+mu,0.1,Pa s
+Re,9.0,-
+iterations,341,-
+Q_in,7.8405008109e-05,m3/s
+Q_out,7.84050081086e-05,m3/s
+mass_conservation_error,5.101578280919795e-10,%
+mdot,0.07056450729792,kg/s
+p_inlet_kinematic,0.00210908214292,m2/s2
+p_outlet_kinematic,0.0,m2/s2
+p_inlet,1.898173928628,Pa
+p_outlet,0.0,Pa
+delta_p_total,1.898173928628,Pa
+hagen_poiseuille_delta_p,1.5999999999999996,Pa
+developed_pressure_gradient,3.3976918832731906,Pa/m
+hagen_poiseuille_gradient,3.1999999999999993,Pa/m
+U_mean_flux,0.009999999999999998,m/s
+U_max_downstream_cell_center,0.019903390528038762,m/s
+U_max_global_cell_center,0.019903390528038762,m/s
+final_continuity_local,1.94811470263e-11,-
+final_continuity_global,-9.53319049531e-14,-
+final_continuity_cumulative,4.78468553033e-06,-
