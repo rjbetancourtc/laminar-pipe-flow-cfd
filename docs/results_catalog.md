@@ -51,9 +51,6 @@ r_m,U_mag_m_s,Ux_m_s,Uy_m_s,Uz_m_s
 ## Figures
 
 The `figures/` directory includes:
-
-- global velocity magnitude contour;
-- physical-pressure contour;
 - velocity vectors;
 - streamlines;
 - longitudinal velocity and pressure views;
