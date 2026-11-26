@@ -463,11 +463,6 @@ Confidence comes from a hierarchy of independent checks:
 
 The repository includes a lightweight Python script that regenerates the main engineering plots directly from the stored CSV files.
 
-```bash
-pip install matplotlib
-python scripts/make_validation_plots.py
-```
-
 The script does **not** rerun CFD. It only regenerates plots from the numerical data already stored in the repository.
 
 ---
