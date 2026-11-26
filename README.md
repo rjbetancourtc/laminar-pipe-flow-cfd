@@ -363,13 +363,6 @@ The CFD pressure gradient downstream is close to theory, while the larger total 
 
 <table>
 <tr>
-<td align="center" width="50%">
-<img src="figures/velocity_contour.png" width="430"><br>
-<sub><b>Velocity magnitude</b></sub>
-</td>
-<td align="center" width="50%">
-<img src="figures/pressure_contour_Pa.png" width="430"><br>
-<sub><b>Physical pressure [Pa]</b></sub>
 </td>
 </tr>
 <tr>
